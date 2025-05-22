@@ -20,6 +20,11 @@ const NavBar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
+              <a className="nav-link" href="https://info-smart-agents.vercel.app/" target="_blank" rel="noopener noreferrer">
+                Início
+              </a>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link" to="/">Chatbot</Link>
             </li>
             <li className="nav-item">
@@ -32,4 +37,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar; 
+export default NavBar;

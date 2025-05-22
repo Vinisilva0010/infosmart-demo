@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoSmart Demo - Chatbot Inteligente</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #e6f2ff;
+            --accent-color: #004d99;
+            --light-gray: #f8f9fa;
+            --border-radius: 16px;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .logo {
+            max-width: 180px;
+        }
+        
+        .header-title {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .chat-container {
+            height: 70vh;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+        }
+        
+        .chat-messages {
+            height: calc(70vh - 140px);
+            overflow-y: auto;
+            padding: 20px;
+            background-color: white;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 20px;
+            position: relative;
+        }
+        
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .bot-message {
+            background-color: var(--secondary-color);
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input {
+            background-color: white;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .suggestions-container {
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .suggestion-item {
+            cursor: pointer;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+        
+        .suggestion-item:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .category-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        
+        .intro-message {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--secondary-color);
+            border-radius: 20px;
+        }
+        
+        .typing-indicator span {
+            height: 10px;
+            width: 10px;
+            margin: 0 2px;
+            background-color: #888;
+            display: inline-block;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0% {
+                transform: translateY(0px);
+                background-color: #888;
+            }
+            25% {
+                transform: translateY(-5px);
+                background-color: #aaa;
+            }
+            50% {
+                transform: translateY(0px);
+                background-color: #888;
+            }
+        }
+        
+        .help-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4 mb-5">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-10 text-center">
+                <h1 class="header-title">
+                    <i class="fas fa-robot"></i> InfoSmart Demo Chatbot
+                </h1>
+                <p class="lead">Pergunte sobre nossas soluções de IA e automação para empresas</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Chatbot -->
+            <div class="col-md-8">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <i class="fas fa-comment-dots"></i> InfoSmart Assistant
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Mensagens aparecerão aqui -->
+                        <div class="message bot-message">
+                            <p class="intro-message">
+                                Olá! Sou o assistente virtual da InfoSmart. Estou aqui para falar sobre nossas soluções de automação e IA para empresas.
+                                <br><br>
+                                Posso te ajudar com informações sobre:
+                                <br>
+                                • Nossos serviços e soluções<br>
+                                • Como a automação funciona<br>
+                                • Preços e planos<br>
+                                • Benefícios e vantagens<br>
+                                • Casos de sucesso<br>
+                                • Processo de implementação<br>
+                                • Como entrar em contato
+                                <br><br>
+                                Como posso ajudar você hoje?
+                            </p>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <form id="chatForm" class="input-group">
+                            <input type="text" id="userInput" class="form-control" placeholder="Digite sua pergunta aqui..." required>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Enviar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sugestões -->
+            <div class="col-md-4">
+                <div class="suggestions-container">
+                    <h4 class="mb-3"><i class="fas fa-lightbulb"></i> Sugestões de perguntas</h4>
+                    
+                    {% for topic in topics %}
+                    <div class="mb-3">
+                        <h5 class="category-title">{{ topic.category }}</h5>
+                        <div class="suggestion-examples">
+                            {% for example in topic.examples %}
+                            <div class="suggestion-item" onclick="suggestQuestion('{{ example }}')">
+                                {{ example }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="help-text">
+                        <i class="fas fa-info-circle"></i> Clique nas sugestões ou digite suas próprias perguntas sobre automação e IA.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p>
+                    <a href="/about" class="text-decoration-none">Sobre o InfoSmart Demo</a> | 
+                    <a href="https://github.com/infosmart/demo" class="text-decoration-none">GitHub</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Função para adicionar mensagem ao chat
+        function addMessage(message, isUser = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.innerHTML = `<p>${message}</p>`;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Função para mostrar indicador de digitação
+        function showTypingIndicator() {
+            const chatMessages = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.classList.add('typing-indicator');
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Função para remover indicador de digitação
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        // Função para processar a mensagem do usuário
+        async function processUserMessage(message) {
+            addMessage(message, true);
+            showTypingIndicator();
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+                
+                const data = await response.json();
+                hideTypingIndicator();
+                
+                // Formatação básica para melhorar a apresentação da resposta
+                let formattedResponse = data.response
+                    .replace(/\n/g, '<br>')
+                    .replace(/•/g, '&bull;')
+                    .replace(/(\(\d+\))/g, '<strong>$1</strong>');
+                
+                addMessage(formattedResponse);
+            } catch (error) {
+                hideTypingIndicator();
+                addMessage('Desculpe, houve um erro ao processar sua mensagem. Por favor, tente novamente.');
+                console.error('Erro:', error);
+            }
+        }
+        
+        // Função para usar sugestão de pergunta
+        function suggestQuestion(question) {
+            document.getElementById('userInput').value = question;
+            document.getElementById('chatForm').dispatchEvent(new Event('submit'));
+        }
+        
+        // Event listener para o formulário
+        document.getElementById('chatForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message) {
+                processUserMessage(message);
+                userInput.value = '';
+            }
+        });
+        
+        // Foco inicial no campo de entrada
+        document.getElementById('userInput').focus();
+    </script>
+</body>
+</html> 
