@@ -3,62 +3,83 @@
   border: none;
   transition: transform 0.3s, box-shadow 0.3s;
   height: 100%;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border-top: 1px solid rgba(0, 102, 255, 0.2);
+  border-left: 1px solid rgba(0, 102, 255, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 102, 255, 0.1);
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0, 102, 255, 0.2);
 }
 
 .feature-icon {
-  font-size: 2rem;
-  color: var(--primary-color);
+  font-size: 2.2rem;
+  color: var(--accent-color);
   margin-bottom: 15px;
+  filter: drop-shadow(0 0 5px rgba(0, 102, 255, 0.5));
 }
 
 .topic-card {
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   background-color: var(--secondary-color);
   padding: 15px;
   margin-bottom: 15px;
   transition: all 0.3s ease;
+  border-left: 3px solid var(--accent-color);
 }
 
 .topic-card:hover {
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 102, 255, 0.2);
   transform: translateY(-3px);
 }
 
 .topic-icon {
   font-size: 1.5rem;
-  color: var(--primary-color);
+  color: var(--accent-color);
   margin-right: 10px;
 }
 
 .example-question {
-  background-color: white;
-  border-radius: 20px;
+  background-color: var(--primary-color);
+  border-radius: 8px;
   padding: 8px 15px;
   margin: 5px 0;
   display: inline-block;
   font-size: 0.9rem;
+  color: var(--text-color);
+  border-left: 2px solid var(--accent-color);
+  transition: all 0.2s ease;
+}
+
+.example-question:hover {
+  background-color: var(--secondary-color);
+  transform: translateX(3px);
+  box-shadow: 0 0 10px rgba(0, 102, 255, 0.15);
 }
 
 .alert-info {
   background-color: var(--secondary-color);
-  border-color: var(--primary-color);
-  color: #333;
+  border-color: var(--accent-color);
+  color: var(--text-color);
+  border-left: 4px solid var(--accent-color);
 }
 
 footer {
   margin-top: auto;
+  background-color: var(--primary-color);
+  border-top: 2px solid var(--accent-color);
+  padding: 15px 0;
 }
 
 footer a {
-  color: white;
+  color: var(--accent-color);
   text-decoration: underline;
 }
 
 footer a:hover {
-  color: #ddd;
+  color: #2b8aff;
+  text-decoration: none;
 } 
